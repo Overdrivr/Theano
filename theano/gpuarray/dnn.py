@@ -3085,6 +3085,7 @@ def local_abstractconv_cudnn_graph(op, context_name, inputs, outputs):
         return None
 
     if isinstance(op.border_mode, tuple) and any(isinstance(p, tuple) for p in op.border_mode):
+        # Asymmetric padding not yet supported
         return None
 
     inp1 = inputs[0]
@@ -3184,6 +3185,7 @@ def local_abstractconv_cudnn(node):
     if node.op.unshared:
         return None
     if isinstance(node.op.border_mode, tuple) and any(isinstance(p, tuple) for p in node.op.border_mode):
+        # Asymmetric padding not yet supported
         return None
     if isinstance(node.op, AbstractConv2d):
         with inherit_stack_trace(node.outputs):
@@ -3204,6 +3206,7 @@ def local_abstractconv_cudnn_alt(node):
     if node.op.unshared:
         return None
     if isinstance(node.op.border_mode, tuple) and any(isinstance(p, tuple) for p in node.op.border_mode):
+        # Asymmetric padding not yet supported
         return None
     inp1 = node.inputs[0]
     inp2 = node.inputs[1]
@@ -3415,6 +3418,7 @@ def local_abstractconv_gw_cudnn(node):
     if node.op.unshared:
         return None
     if isinstance(node.op.border_mode, tuple) and any(isinstance(p, tuple) for p in node.op.border_mode):
+        # Asymmetric padding not yet supported
         return None
     if isinstance(node.op, AbstractConv2d_gradWeights):
         with inherit_stack_trace(node.outputs):
@@ -3432,6 +3436,7 @@ def local_abstractconv_gi_cudnn(node):
     if node.op.unshared:
         return None
     if isinstance(node.op.border_mode, tuple) and any(isinstance(p, tuple) for p in node.op.border_mode):
+        # Asymmetric padding not yet supported
         return None
     if isinstance(node.op, AbstractConv2d_gradInputs):
         with inherit_stack_trace(node.outputs):
