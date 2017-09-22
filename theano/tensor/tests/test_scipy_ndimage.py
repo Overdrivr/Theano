@@ -128,6 +128,8 @@ class TestZoomShift(utt.InferShapeTester):
                     if len(res) > 0 and theano.config.mode != 'FAST_COMPILE':
                         # First-order gradient
                         def fn(x_):
+                            # verify_grad makes the any axis with length == 1 broadcastable
+                            x_ = T.patternbroadcast(x_, (False,) * x_.ndim)
                             return zoom(x_, zoom=zoom_ar, order=order, mode=mode,
                                         cval=cval, prefilter=prefilter)
                         utt.verify_grad(fn, [x_val])
@@ -139,6 +141,8 @@ class TestZoomShift(utt.InferShapeTester):
 
                         # Second-order gradient
                         def fn_grad(y_):
+                            # verify_grad makes the any axis with length == 1 broadcastable
+                            y_ = T.patternbroadcast(y_, (False,) * y_.ndim)
                             return ZoomShiftGrad(order=order, mode=mode)(
                                 y_, x_val.shape, zoom_ar_in_op, None, cval=cval)
                         utt.verify_grad(fn_grad, [res])
@@ -241,6 +245,8 @@ class TestZoomShift(utt.InferShapeTester):
                     if len(res) > 0 and theano.config.mode != 'FAST_COMPILE':
                         # First-order gradient
                         def fn(x_):
+                            # verify_grad makes the any axis with length == 1 broadcastable
+                            x_ = T.patternbroadcast(x_, (False,) * x_.ndim)
                             return shift(x_, shift=shift_ar, order=order, mode=mode,
                                          cval=cval, prefilter=prefilter)
                         utt.verify_grad(fn, [x_val])
@@ -255,6 +261,8 @@ class TestZoomShift(utt.InferShapeTester):
 
                         # Second-order gradient
                         def fn_grad(y_):
+                            # verify_grad makes the any axis with length == 1 broadcastable
+                            y_ = T.patternbroadcast(y_, (False,) * y_.ndim)
                             return ZoomShiftGrad(order=order, mode=mode)(
                                 y_, x_val.shape, None, shift_ar_in_op, cval=cval)
                         utt.verify_grad(fn_grad, [res])

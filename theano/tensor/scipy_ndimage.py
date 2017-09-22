@@ -95,8 +95,8 @@ class ZoomShift(theano.gof.COp):
         assert shift_ar.ndim == 1
         assert cval.ndim == 0
 
-        for axis in axes:
-            if input.broadcastable[axis]:
+        for axis in range(input.ndim):
+            if input.broadcastable[axis] and (axis in axes or axes == []):
                 raise ValueError("cannot zoom or shift broadcastable axis %d of %s" % (axis, str(input.type)))
 
         broadcastable = [False if axes == [] or axis in axes else input.broadcastable[axis]
@@ -240,8 +240,8 @@ class ZoomShiftGrad(theano.gof.COp):
         assert shift_ar.ndim == 1
         assert cval.ndim == 0
 
-        for axis in axes:
-            if input.broadcastable[axis]:
+        for axis in range(input.ndim):
+            if input.broadcastable[axis] and (axis in axes or axes == []):
                 raise ValueError("cannot zoom or shift broadcastable axis %d of %s" % (axis, str(input.type)))
 
         broadcastable = [False if axes == [] or axis in axes else input.broadcastable[axis]
